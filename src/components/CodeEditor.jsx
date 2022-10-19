@@ -96,20 +96,25 @@ getName();
         }, 0);
     };
 
-    const LANG_REGEX = {
-        js: /(?<basic>function|let|var|const|true|false)|(?<other>return|null|import|export|default|if|else)|(?<string>"[^"\n]*"|"[^"\n]*|'[^'\n]*'|'[^'\n]*|(`[^`]*`|`[^`]*))|(?<constant>(?<=const )\w+)|(?<variable>(?<=let\s|var\s)\w+)|(?<comment>\/\/[^\n]*|\/\*[^*/]*\*\/|\/\*[^*/]*)|(?<number>\d+)|(?<method>(?<=function )\w+(?=\(*))/
+    // const LANG_REGEX = {
+    //     js: /(?<basic>function|let|var|const|true|false)|(?<other>return|null|import|export|default|if|else)|(?<string>"[^"\n]*"|"[^"\n]*|'[^'\n]*'|'[^'\n]*|(`[^`]*`|`[^`]*))|(?<constant>(?<=const )\w+)|(?<variable>(?<=let\s|var\s)\w+)|(?<comment>\/\/[^\n]*|\/\*[^*/]*\*\/|\/\*[^*/]*)|(?<number>\d+)|(?<method>(?<=function )\w+(?=\(*))/
+    // };
+    
+    const LANG_REGEX_STRING = {
+        js: "(?<basic>function|let|var|const|true|false)|(?<other>return|null|import|export|default|if|else)|(?<string>\"[^\"\\n]*\"|\"[^\"\\n]*|'[^'\\n]*'|'[^'\\n]*|(`[^`]*`|`[^`]*))|(?<constant>(?<=const )\\w+)|(?<variable>(?<=let\\s|var\\s)\\w+)|(?<comment>\\/\\/[^\\n]*|\\/\\*[^*/]*\\*\\/|\\/\\*[^*/]*)|(?<number>\\d+)|(?<method>(?<=function )\\w+(?=\\(*))"
     };
 
-    const parsedCode = getParsedCodeFromString(value, LANG_REGEX.js);
+    const parsedCode = getParsedCodeFromString(value, LANG_REGEX_STRING.js);
 
     function getParsedCodeFromString(string, regex) {
         const matches = [...string.matchAll(new RegExp(regex, 'g'))].map(match => {
+            const groups = Object.entries(match.groups || {});
             return {
                 keyword: match[0],
                 startIndex: match.index,
                 lastIndex: match[0].length + match.index,
                 input: match.input,
-                group: Object.entries(match.groups).filter(group => group.every(item => !!item))[0][0]
+                group: groups ? groups.filter(group => group.every(item => !!item))[0][0] : []
             };
         });
 
