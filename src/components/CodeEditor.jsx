@@ -33,10 +33,10 @@ getName();
     const [caretPosition, setCaretPosition] = useState(0);
     useEffect(() => {
         textareaEl.current.setSelectionRange(caretPosition, caretPosition);
-        setLinePosition(textareaEl.current.value.slice(0, caretPosition).split('\n').length);
+        // setLinePosition(textareaEl.current.value.slice(0, caretPosition).split('\n').length);
     }, [caretPosition]);
 
-    const [linePosition, setLinePosition] = useState(null);
+    // const [linePosition, setLinePosition] = useState(null);
 
     const preEl = useRef(null);
     const textareaEl = useRef(null);
