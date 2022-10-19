@@ -1,0 +1,19 @@
+@use './assets/reset';
+@use './assets/flex';
+
+* {
+  box-sizing: border-box;
+  &:focus {
+    outline: none;
+  }
+}
+
+html {
+  font-size: 16x;
+  font-family: sans-serif;
+}
+
+body {
+  background-color: black;
+  color: white;
+}

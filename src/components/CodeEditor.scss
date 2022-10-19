@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata &display=swap');
+
+$transparent: #00000000;
+
+#formattedCode {
+    height: 40rem;
+    width: 40rem;
+    position: relative;
+    background-color: rgb(32, 32, 32);
+    overflow: hidden;
+    margin: 5rem auto 0;
+    border-radius: 0.5rem;
+    border: 1px solid white;
+    textarea,
+    pre {
+        font-size: 1rem;
+        font-family: 'Inconsolata', monospace;
+        color: white;
+        padding: 2rem;
+        height: 100%;
+        width: 100%;
+        line-height: 1.25;
+    }
+    textarea {
+        color: rgba(255, 255, 0, 0.333);
+        border: none;
+        resize: none;
+        background-color: $transparent;
+        caret-color: white;
+        &::selection {
+            color: $transparent;
+            background: rgb(0, 79, 110);
+        }
+    }
+    pre {
+        pointer-events: none;
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 999;
+        color: white;
+        background-color: $transparent;
+        white-space: pre-wrap;
+        overflow-y: scroll;
+        user-select: none;
+        code {
+            &.js-reserved {
+                &.other {
+                    color: #c586c0;
+                }
+                &.basic {
+                    color: #3d9ddb;
+                }
+                &.string {
+                    color: #ce9178;
+                }
+                &.constant {
+                    color: #00c3ff;
+                }
+                &.variable {
+                    color: #8bdeff;
+                }
+                &.comment {
+                    color: #5e9d4c;
+                }
+                &.number {
+                    color: #b0d1a4;
+                }
+                &.method {
+                    color: #d8daa1;
+                }
+            }
+        }
+    }
+}
