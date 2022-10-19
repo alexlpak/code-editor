@@ -37,9 +37,6 @@ getName();
     }, [caretPosition]);
 
     const [linePosition, setLinePosition] = useState(null);
-    useEffect(() => {
-        console.log(linePosition, 'changed');
-    }, [linePosition])
 
     const preEl = useRef(null);
     const textareaEl = useRef(null);
