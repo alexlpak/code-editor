@@ -31,6 +31,9 @@ $transparent: #00000000;
             color: $transparent;
             background: rgb(0, 79, 110);
         }
+        &:disabled {
+            cursor: not-allowed;
+        }
     }
     pre {
         pointer-events: none;

@@ -1,11 +1,12 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './CodeEditor.scss';
 
-export default function CodeEditor() {
-    const [value, setValue] = useState(`
+const initString = `
+
 // Welcome to the Code Editor!
 
 /* I am still working on a few of the quirks here and there, but feel free to try it out!
+
 Syntax highlighting is currently set to JavaScript. */
 
 const name = {
@@ -22,7 +23,12 @@ function getName() {
 
 getName();
 // Alex Pak
-    `);
+`;
+
+export default function CodeEditor() {
+    const [value, setValue] = useState('');
+    const [disabled, setDisabled] = useState(true);
+
     const [inputTimeout, setInputTimeout] = useState(null);
 
     const [scrollHeight, setScrollHeight] = useState(0);
@@ -33,10 +39,7 @@ getName();
     const [caretPosition, setCaretPosition] = useState(0);
     useEffect(() => {
         textareaEl.current.setSelectionRange(caretPosition, caretPosition);
-        // setLinePosition(textareaEl.current.value.slice(0, caretPosition).split('\n').length);
     }, [caretPosition]);
-
-    // const [linePosition, setLinePosition] = useState(null);
 
     const preEl = useRef(null);
     const textareaEl = useRef(null);
@@ -47,6 +50,20 @@ getName();
             func()
         }, timeout));
     };
+
+    const typingRef = useRef(null);
+
+    useEffect(() => {
+        typingRef.currentIndex = 0;
+        typingRef.current = setInterval(() => {
+            if (typingRef.currentIndex === initString.split('').length - 1) {
+                clearInterval(typingRef.current);
+                setDisabled(() => false);
+            }
+            setValue((prev) => [...prev, initString.split('')[typingRef.currentIndex]].join(''))
+            typingRef.currentIndex++
+        }, 25);
+    }, []);
 
     const handleChange = ({target}) => {
         const {value} = target;
@@ -83,7 +100,6 @@ getName();
             const {selectionStart, selectionEnd} = target;
             if (selectionStart === selectionEnd) 
                 setCaretPosition(selectionEnd);
-            
         }, 0);
     };
 
@@ -92,7 +108,6 @@ getName();
             const {selectionStart, selectionEnd} = target;
             if (selectionStart === selectionEnd) 
                 setCaretPosition(selectionStart);
-            
         }, 0);
     };
 
@@ -172,7 +187,9 @@ getName();
 
     return (
         <div id='formattedCode'>
-            <textarea onKeyDown={handleKeyDown}
+            <textarea
+                disabled={disabled}
+                onKeyDown={handleKeyDown}
                 onChange={handleChange}
                 onScroll={handleTextareaScroll}
                 onMouseDown={handleMouseDown}
